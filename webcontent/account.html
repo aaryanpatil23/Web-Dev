@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VYRA | Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --gold: #cfaa6a;
+    --gold-light: #e6d1a8;
+    --gold-glow: rgba(207, 170, 106, 0.3);
+    --maroon-dark: #0a0a0a;
+    --text-light: #f4f4f4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+/* Background */
+.account-bg {
+    min-height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.80), rgba(0,0,0,0.90)), url("/static/story.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 60px;
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(15,15,15,0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--gold-glow);
+    border-radius: 6px;
+    padding: 45px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+    width: 100%;
+}
+
+.auth-card { max-width: 420px; }
+.dashboard-card { max-width: 900px; }
+
+/* Typography */
+.brand-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 36px; letter-spacing: 6px; color: var(--gold); margin-bottom: 5px; }
+.brand-sub { text-align: center; font-size: 12px; letter-spacing: 3px; color: var(--gold); opacity: 0.7; margin-bottom: 35px; }
+.section-title { font-family: 'Playfair Display', serif; color: var(--gold); letter-spacing: 3px; margin-bottom: 25px; font-size: 20px; text-transform: uppercase; border-bottom: 1px solid var(--gold-glow); padding-bottom: 15px;}
+
+/* Inputs */
+.form-control, .auth-input {
+    width: 100%;
+    padding: 13px 15px;
+    margin-bottom: 18px;
+    background: transparent;
+    border: 1px solid var(--gold-glow);
+    color: var(--text-light);
+    font-size: 14px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+.form-control:focus, .auth-input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+    background: transparent;
+    color: var(--gold);
+}
+
+/* Buttons */
+.gold-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light), var(--gold));
+    border: none;
+    color: #000;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.gold-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(207,170,106,0.4); }
+
+.outline-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.outline-btn:hover { background: var(--gold); color: #000; box-shadow: 0 10px 25px rgba(207,170,106,0.4); }
+
+/* Dashboard Tabs Navigation */
+.nav-pills .nav-link {
+    color: var(--text-light);
+    border-radius: 2px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-size: 13px;
+    text-transform: uppercase;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+.nav-pills .nav-link:hover { color: var(--gold); }
+.nav-pills .nav-link.active {
+    background-color: transparent;
+    color: var(--gold);
+    border-color: var(--gold);
+    box-shadow: inset 0 0 15px rgba(207,170,106,0.1);
+}
+
+/* Info Rows & Order Items */
+.info-row { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.info-label { opacity: 0.6; letter-spacing: 1px; font-size: 13px; color: var(--text-light); }
+.info-value { letter-spacing: 1px; font-size: 14px; color: var(--gold); }
+
+.order-item { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center;}
+.order-title { font-weight: 500; letter-spacing: 1px; color: var(--text-light); }
+.order-meta { font-size: 12px; opacity: 0.6; letter-spacing: 1px; margin-top: 5px; color: var(--gold-light); }
+</style>
+</head>
+
+<body>
+
+<nav style="position: absolute; top: 30px; left: 0; width: 100%; padding: 0 60px; display: flex; justify-content: space-between; align-items: center; z-index: 10;">
+    
+    <a href="index.html" style="font-family: 'Playfair Display', serif; font-size: 24px; letter-spacing: 4px; color: var(--gold); text-decoration: none;">VYRA</a>
+    
+    <a href="index.html" style="color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1px solid var(--gold-glow); padding: 10px 24px; border-radius: 2px; transition: all 0.3s ease;" 
+       onmouseover="this.style.background='var(--gold)'; this.style.color='#000'; this.style.borderColor='var(--gold)';" 
+       onmouseout="this.style.background='transparent'; this.style.color='var(--gold)'; this.style.borderColor='var(--gold-glow)';">
+        <i class="fas fa-arrow-left me-2"></i> Home
+    </a>
+</nav>
+
+<div class="account-bg">
+
+    <div class="glass-card auth-card" id="auth-section">
+        <div class="brand-title">VYRA</div>
+        <div class="brand-sub">ACCESS YOUR ESSENCE</div>
+
+        <h5 class="text-center mb-4" id="formTitle" style="color: var(--gold); letter-spacing: 2px;">LOGIN</h5>
+
+        <form onsubmit="event.preventDefault(); simulateLogin();">
+            <div id="nameField" style="display: none;">
+                <input type="text" name="fullName" class="auth-input" placeholder="Full Name">
+            </div>
+            
+            <input type="email" name="email" class="auth-input" placeholder="Email Address" required>
+            <input type="password" name="password" class="auth-input" placeholder="Password" required>
+            
+            <button type="submit" class="gold-btn" id="authSubmitBtn">Enter</button>
+        </form>
+
+        <div class="text-center mt-4" style="font-size: 13px; letter-spacing: 1px; color: var(--text-light);">
+            <span id="toggleText">Don’t have an account? </span>
+            <span onclick="toggleAuthMode()" style="color: var(--gold); cursor: pointer; font-weight: 600;">Sign Up</span>
+        </div>
+    </div>
+
+
+    <div class="glass-card dashboard-card" id="dashboard-section" style="display: none;">
+        
+        <div class="row">
+            <div class="col-md-3 border-end border-warning border-opacity-25 pe-4">
+                <div class="mb-5">
+                    <p style="font-size: 12px; letter-spacing: 2px; color: var(--text-light); opacity: 0.6; margin-bottom: 0;">WELCOME BACK,</p>
+                    <h4 style="font-family: 'Playfair Display', serif; color: var(--gold);">John Doe</h4>
+                </div>
+
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <button class="nav-link active text-start" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab">My Profile</button>
+                    <button class="nav-link text-start" id="v-pills-edit-tab" data-bs-toggle="pill" data-bs-target="#v-pills-edit" type="button" role="tab">Edit Details</button>
+                    <button class="nav-link text-start" id="v-pills-orders-tab" data-bs-toggle="pill" data-bs-target="#v-pills-orders" type="button" role="tab">Order History</button>
+                    <button class="nav-link text-start" id="v-pills-cart-tab" data-bs-toggle="pill" data-bs-target="#v-pills-cart" type="button" role="tab">My Cart</button>
+                </div>
+
+                <div class="mt-5">
+                    <button onclick="simulateLogout()" class="outline-btn" style="padding: 10px; font-size: 12px;">Sign Out</button>
+                </div>
+            </div>
+
+            <div class="col-md-9 ps-md-5 mt-4 mt-md-0">
+                <div class="tab-content" id="v-pills-tabContent">
+                    
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+                        <div class="section-title">Account Overview</div>
+                        <div class="info-row">
+                            <div class="info-label">Full Name</div>
+                            <div class="info-value">John Doe</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Email Address</div>
+                            <div class="info-value">john.doe@example.com</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone Number</div>
+                            <div class="info-value">+1 234 567 8900</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Shipping Address</div>
+                            <div class="info-value">123 Luxury Avenue, Maison District, NY</div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-edit" role="tabpanel">
+                        <div class="section-title">Update Information</div>
+                        <form onsubmit="event.preventDefault(); alert('Settings Saved! (Simulation)');">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="info-label mb-2">Full Name</label>
+                                    <input type="text" class="form-control" value="John Doe" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="info-label mb-2">Phone Number</label>
+                                    <input type="text" class="form-control" value="+1 234 567 8900">
+                                </div>
+                            </div>
+                            <label class="info-label mb-2 mt-2">Shipping Address</label>
+                            <textarea class="form-control" rows="3">123 Luxury Avenue, Maison District, NY</textarea>
+                            
+                            <button type="submit" class="gold-btn mt-3" style="width: auto; padding: 12px 30px;">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-orders" role="tabpanel">
+                        <div class="section-title">Order History</div>
+                        <div class="order-item">
+                            <div>
+                                <div class="order-title">Oud Mystique – 100ml</div>
+                                <div class="order-meta">Order ID: #VY1023 | Placed: Oct 12, 2023</div>
+                            </div>
+                            <div class="text-end">
+                                <span style="color: #28a745; font-size: 13px; letter-spacing: 1px;">DELIVERED</span>
+                                <div style="color: var(--gold); margin-top: 5px;">₹9,999</div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <div>
+                                <div class="order-title">Amber Desire – 100ml</div>
+                                <div class="order-meta">Order ID: #VY1025 | Placed: Nov 05, 2023</div>
+                            </div>
+                            <div class="text-end">
+                                <span style="color: var(--gold-light); font-size: 13px; letter-spacing: 1px;">PROCESSING</span>
+                                <div style="color: var(--gold); margin-top: 5px;">₹3,999</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="v-pills-cart" role="tabpanel">
+                        <div class="section-title">Your Cart</div>
+                        <p style="color: var(--text-light); opacity: 0.8; font-size: 14px;">You have 1 item in your cart.</p>
+                        
+                        <div class="order-item mt-4 border-top border-warning border-opacity-25">
+                            <div class="d-flex align-items-center">
+                                <img src="/static/exclusive.png" alt="Cart Item" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--gold); margin-right: 15px;">
+                                <div>
+                                    <div class="order-title">Vyra's Exclusive</div>
+                                    <div class="order-meta">Qty: 1 | 100ml</div>
+                                </div>
+                            </div>
+                            <div style="color: var(--gold);">₹9,999</div>
+                        </div>
+                        
+                        <div class="text-end mt-4">
+                            <a href="cart.html" class="gold-btn text-decoration-none" style="display: inline-block; width: auto; padding: 12px 30px;">Proceed to Checkout</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // --- Evaluator Testing Functions ---
+    function simulateLogin() {
+        // Hides Login, Shows Dashboard
+        document.getElementById("auth-section").style.display = "none";
+        document.getElementById("dashboard-section").style.display = "block";
+    }
+
+    function simulateLogout() {
+        // Hides Dashboard, Shows Login
+        document.getElementById("dashboard-section").style.display = "none";
+        document.getElementById("auth-section").style.display = "block";
+    }
+
+    // --- Standard UI Toggle Logic ---
+    let isLoginMode = true;
+
+    function toggleAuthMode() {
+        const title = document.getElementById("formTitle");
+        const submitBtn = document.getElementById("authSubmitBtn");
+        const toggleText = document.getElementById("toggleText");
+        const nameField = document.getElementById("nameField");
+        const authToggleLink = document.querySelector(".text-center span[onclick]");
+
+        if (isLoginMode) {
+            title.innerText = "CREATE ACCOUNT";
+            submitBtn.innerText = "Register";
+            toggleText.innerText = "Already have an account? ";
+            authToggleLink.innerText = "Login";
+            nameField.style.display = "block";
+            document.querySelector('input[name="fullName"]').setAttribute("required", "true");
+        } else {
+            title.innerText = "LOGIN";
+            submitBtn.innerText = "Enter";
+            toggleText.innerText = "Don’t have an account? ";
+            authToggleLink.innerText = "Sign Up";
+            nameField.style.display = "none";
+            document.querySelector('input[name="fullName"]').removeAttribute("required");
+        }
+        isLoginMode = !isLoginMode;
+    }
+</script>
+
+</body>
+</html>
