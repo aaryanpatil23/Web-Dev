@@ -15,7 +15,7 @@
     *{ margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; }
     
     body{
-        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("/static/story.png");
+        background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("/static/story.png");
         background-size:cover; background-position:center; background-attachment:fixed;
         color:#fff;
     }
@@ -27,28 +27,29 @@
     .product-image img:hover{ transform:scale(1.1); }
     
     .product-details{ flex:1 1 400px; }
-    .product-details h1{ font-family:'Playfair Display', serif; font-size:46px; letter-spacing:2px; margin-bottom:15px; color:var(--gold);}
-    .price{ font-size:28px; color:#fff; margin-bottom:15px; }
-    .rating{ margin-bottom:20px; font-size:18px; color:var(--gold); }
-    .details-info{ margin-bottom:25px; line-height:1.8; font-size:16px; }
-    .details-info span{ color:var(--gold); font-weight:500; }
+    .product-details h1 { font-family:'Playfair Display', serif; font-size:46px; letter-spacing:2px; margin-bottom:15px; color:var(--gold);}
+    .price { font-size:28px; color:#fff; margin-bottom:15px; } 
+    .rating { margin-bottom:20px; font-size:18px; color:var(--gold); } 
+    .details-info { margin-bottom:25px; line-height:1.8; font-size:16px; }
+    .details-info span { color:var(--gold); font-weight:500; }
     
     /* BUTTONS */
-    .button-group{ margin-top:25px; }
-    button{ padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:pointer; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
-    .add-cart{ background:transparent; color:var(--gold); border: 1px solid var(--gold); }
-    .buy-now{ background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a); color:#000; }
-    button:hover{ transform:translateY(-2px); box-shadow: 0 5px 15px rgba(207, 170, 106, 0.4); }
+    .button-group { margin-top:25px; }
+    button { padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:pointer; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
+    .add-cart { background:transparent; color:var(--gold); border: 1px solid var(--gold); }
+    .buy-now { background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a); color:#000; }
+    button:hover { transform:translateY(-2px); box-shadow: 0 5px 15px rgba(207, 170, 106, 0.4); }
     .add-cart:hover { background: rgba(207, 170, 106, 0.1); }
     
     /* BACK TO HOME */
-    .back-home{ text-align:center; padding:40px 0 60px; }
-    .home-btn{ color:var(--gold); letter-spacing:3px; font-size:13px; padding:12px 30px; border:1px solid var(--gold); text-decoration:none; transition:0.4s ease; display:inline-block; text-transform:uppercase;}
-    .home-btn:hover{ background:var(--gold); color:black; box-shadow:0 10px 25px rgba(207,170,106,0.4); }
+    .back-home { text-align:center; padding:40px 0 60px; }
+    .home-btn { color:var(--gold); letter-spacing:3px; font-size:13px; padding:12px 30px; border:1px solid var(--gold); text-decoration:none; transition:0.4s ease; display:inline-block; text-transform:uppercase;}
+    .home-btn:hover { background:var(--gold); color:black; box-shadow:0 10px 25px rgba(207,170,106,0.4); }
 </style>
 </head>
 
 <body>
+<div id="page-transition">
 
 <div class="product-container">
     <div class="product-image">
@@ -76,7 +77,7 @@
 <div class="back-home">
     <a href="javascript:history.back()" class="home-btn">← GO BACK</a>
 </div>
-
+</div>
 <script>
     // 1. The FULL Master Perfume Database
     const productDatabase = {
@@ -113,6 +114,33 @@
     } else {
         document.getElementById('prod-name').innerText = "Product Not Found";
     }
+
+    // 1. Fade IN when the page loads
+    window.addEventListener('pageshow', () => {
+        // Adds the class to fade out the black screen
+        document.body.classList.add('page-loaded');
+    });
+
+    // 2. Fade OUT when a link is clicked
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Skip the animation for empty links, page anchors, or the "javascript:history.back()" button
+            if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+            
+            // Stop the browser from instantly loading the next page
+            e.preventDefault();
+            
+            // Bring the black screen back
+            document.body.classList.remove('page-loaded');
+            
+            // Wait exactly 500 milliseconds for the fade to finish, then go to the new page!
+            setTimeout(() => {
+                window.location.href = href;
+            }, 500); 
+        });
+    });
 </script>
 
 </body>

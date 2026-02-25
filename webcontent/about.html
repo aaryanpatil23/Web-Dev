@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vyra | Our Heritage</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    :root {
+        --gold: #cfaa6a;
+        --gold-light: #e6d1a8;
+        --gold-glow: rgba(207, 170, 106, 0.3);
+        --text-light: #f4f4f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+    /* --- Cinematic Page Transition --- */
+    #page-transition {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background-color: #050505; z-index: 999999; pointer-events: none;
+        opacity: 1; transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    body.page-loaded #page-transition { opacity: 0; }
+
+    /* --- Custom Cursor --- */
+    body, a, button { cursor: none !important; }
+    #custom-cursor-dot {
+        position: fixed; top: 0; left: 0; width: 6px; height: 6px;
+        background-color: var(--gold); border-radius: 50%;
+        pointer-events: none; z-index: 10000;
+    }
+    #custom-cursor-ring {
+        position: fixed; top: 0; left: 0; width: 34px; height: 34px;
+        border: 1px solid rgba(207, 170, 106, 0.6); border-radius: 50%;
+        pointer-events: none; z-index: 9999; transition: background-color 0.3s ease;
+    }
+    .sparkle {
+        position: fixed; top: 0; left: 0; width: 5px; height: 5px;
+        background-color: #ffffff; box-shadow: 0 0 10px #e6d1a8, 0 0 20px #cfaa6a, 0 0 30px #cfaa6a;
+        border-radius: 50%; pointer-events: none; z-index: 9998; will-change: transform, opacity;
+    }
+
+    /* --- Background --- */
+    body {
+        min-height: 100vh;
+        /* Using the lighter overlay to let the background shine */
+        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url("/static/story.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+
+    /* --- Navigation --- */
+    nav {
+        position: absolute; top: 30px; left: 0; width: 100%; padding: 0 60px;
+        display: flex; justify-content: space-between; align-items: center; z-index: 10;
+    }
+    .brand-logo {
+        font-family: 'Playfair Display', serif; font-size: 24px; letter-spacing: 4px;
+        color: var(--gold); text-decoration: none; transition: 0.3s;
+    }
+    .nav-btn {
+        color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+        text-decoration: none; border: 1px solid var(--gold-glow); padding: 10px 24px;
+        border-radius: 2px; transition: all 0.3s ease;
+    }
+    .nav-btn:hover {
+        background: var(--gold); color: #000; border-color: var(--gold);
+    }
+
+    /* --- Editorial Content Structure --- */
+    .about-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 140px 20px 80px;
+    }
+
+    /* Smoked Glass Editorial Card */
+    .editorial-card {
+        max-width: 850px;
+        background: rgba(10, 10, 10, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--gold-glow);
+        border-radius: 4px;
+        padding: 60px 80px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+        position: relative;
+    }
+
+    /* Decorative Gold Lines */
+    .editorial-card::before {
+        content: ''; position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+        width: 40px; height: 1px; background: var(--gold);
+    }
+    .editorial-card::after {
+        content: ''; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+        width: 40px; height: 1px; background: var(--gold);
+    }
+
+    /* Typography */
+    .title-primary {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 52px;
+        color: var(--gold);
+        text-align: center;
+        letter-spacing: 4px;
+        margin-bottom: 10px;
+    }
+    
+    .title-secondary {
+        font-family: 'Playfair Display', serif;
+        font-size: 14px;
+        color: var(--gold-light);
+        text-align: center;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin-bottom: 50px;
+        opacity: 0.8;
+    }
+
+    .editorial-text {
+        font-size: 15px;
+        line-height: 2;
+        color: #e0e0e0;
+        margin-bottom: 35px;
+        text-align: justify;
+        letter-spacing: 0.5px;
+        font-weight: 300;
+    }
+
+    .drop-cap {
+        float: left;
+        font-family: 'Playfair Display', serif;
+        font-size: 60px;
+        line-height: 50px;
+        padding-top: 4px;
+        padding-right: 12px;
+        padding-left: 3px;
+        color: var(--gold);
+    }
+
+    .highlight {
+        color: var(--gold);
+        font-weight: 400;
+        font-style: italic;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 18px;
+    }
+
+    /* Action Area */
+    .action-area {
+        text-align: center;
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(207, 170, 106, 0.15);
+    }
+
+    .gold-btn {
+        padding: 15px 40px;
+        background: linear-gradient(to right, var(--gold), var(--gold-light), var(--gold));
+        border: none;
+        color: #000;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: 0.3s;
+        border-radius: 2px;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .gold-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(207,170,106,0.4);
+        color: #000;
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 768px) {
+        .editorial-card { padding: 40px 30px; }
+        .title-primary { font-size: 38px; }
+        .editorial-text { font-size: 14px; text-align: left; }
+        nav { padding: 0 20px; }
+    }
+</style>
+</head>
+
+<body>
+
+<div id="page-transition"></div>
+
+<nav>
+    <a href="index.html" class="brand-logo">VYRA</a>
+    <a href="index.html" class="nav-btn">
+        <i class="fas fa-arrow-left me-2"></i> Home
+    </a>
+</nav>
+
+<div class="about-container">
+    <div class="editorial-card">
+        
+        <h1 class="title-primary">OUR HERITAGE</h1>
+        <div class="title-secondary">The Genesis of Maison Vyra</div>
+
+        <p class="editorial-text">
+            <span class="drop-cap">M</span>aison Vyra was born from a singular, uncompromising vision: to capture the ephemeral beauty of nature's rarest elements and transform them into liquid memories. Founded on the principle that true elegance is timeless, we bridge the chasm between centuries-old Middle Eastern perfumery traditions and the sharp, avant-garde sophistication of modern haute parfumerie. 
+        </p>
+
+        <p class="editorial-text">
+            We believe that <span class="highlight">true luxury cannot be rushed</span>. Our master perfumers travel the globe to ethically source the most elusive botanicals. From the deep, resinous depths of aged Indian Oud, to the delicate, hand-picked Damask roses of the Mediterranean coast, every drop encased within our flacons is a testament to nature's perfection. We refuse the synthetic shortcuts of the modern industry, choosing instead the arduous, rewarding path of natural extraction.
+        </p>
+
+        <p class="editorial-text" style="margin-bottom: 0;">
+            There are no compromises in our ateliers. Each Vyra fragrance is macerated for months in dark, temperature-controlled vaults, allowing the delicate notes to intertwine, mature, and breathe. This painstaking process ensures an unparalleled depth and longevity. When you wear Vyra, you are not simply wearing a scent—you are wearing a masterpiece of patience, an invisible garment woven from history, earth, and artistry.
+        </p>
+
+        <div class="action-area">
+            <a href="shop.html" class="gold-btn">Explore The Collection</a>
+        </div>
+
+    </div>
+</div>
+
+<div id="custom-cursor-dot"></div>
+<div id="custom-cursor-ring"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+    // --- Cinematic Transition ---
+    window.addEventListener('pageshow', () => {
+        document.body.classList.add('page-loaded');
+    });
+
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+            
+            e.preventDefault();
+            document.body.classList.remove('page-loaded');
+            
+            setTimeout(() => {
+                window.location.href = href;
+            }, 500); 
+        });
+    });
+
+    // --- Custom Cursor & Sparkles ---
+    gsap.set(["#custom-cursor-dot", "#custom-cursor-ring"], {xPercent: -50, yPercent: -50});
+
+    document.addEventListener('mousemove', (e) => {
+        if (typeof gsap !== 'undefined') {
+            gsap.to("#custom-cursor-dot", { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to("#custom-cursor-ring", { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+
+            let sparkleCount = Math.floor(Math.random() * 3) + 1;
+            for(let i = 0; i < sparkleCount; i++) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        }
+    });
+
+    const interactables = document.querySelectorAll('a, button');
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to('#custom-cursor-ring', { scale: 1.8, backgroundColor: 'rgba(207, 170, 106, 0.15)', duration: 0.3 });
+        });
+        el.addEventListener('mouseleave', () => {
+            gsap.to('#custom-cursor-ring', { scale: 1, backgroundColor: 'transparent', duration: 0.3 });
+        });
+    });
+
+    function createSparkle(mouseX, mouseY) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        document.body.appendChild(sparkle);
+
+        const startX = mouseX + (Math.random() * 30 - 15);
+        const startY = mouseY + (Math.random() * 30 - 15);
+
+        gsap.set(sparkle, { x: startX, y: startY, scale: Math.random() * 1 + 0.5, opacity: 1 });
+
+        gsap.to(sparkle, {
+            y: startY + (Math.random() * 100 + 30), 
+            x: startX + (Math.random() * 80 - 40),  
+            opacity: 0, scale: 0, duration: Math.random() * 1.5 + 0.5, ease: "power1.out",
+            onComplete: () => sparkle.remove()
+        });
+    }
+</script>
+
+</body>
+</html>

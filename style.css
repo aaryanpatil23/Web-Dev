@@ -10,8 +10,15 @@
 }
 
 body {
-    background: radial-gradient(circle at top center, var(--maroon) 0%, var(--maroon-dark) 70%, var(--black) 100%);
-    background-color: var(--black);
+    /* 👇 NEW: Full-page fixed background image with a dark overlay */
+    background: 
+        linear-gradient(rgba(10, 10, 10, 0.5), rgba(10, 10, 10, 0.332)), 
+        url('/static/hero1.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Keeps it locked in place while you scroll */
+    background-repeat: no-repeat;
+    
     color: var(--text-light);
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
@@ -41,13 +48,9 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 .hero-image-section {
     position: relative;
     width: 100vw;
-    height: 100vh; /* Takes up exactly one full screen */
-    /* High-end perfume photography placeholder */
-    background-image: url('/static/hero.png'); 
-    background-size: cover; /* Ensures the entire image fits within the section */
-    background-repeat: no-repeat;
-    background-position: center ;
-    background-attachment: scroll; /* Normal scroll behavior */
+    height: 100vh;
+    /* 👇 REMOVED all background properties so it's transparent */
+    background: transparent; 
 }
 
 /* --- Hero Section Elements --- */
@@ -202,12 +205,22 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 /* --- True Semi-Circle Arch --- */
 /* --- True Semi-Circle Arch Section --- */
+/* --- 3. Arch Section --- */
 .arch-section {
     position: relative;
     padding-bottom: 2rem;
     padding-top: 4rem; 
-    background-color: var(--black); /* Fallback color */
-    overflow: hidden; /* Keeps the background image neatly inside this section */
+    
+    /* 👇 THE FIX: A smooth dark wash that fades in and out */
+    background: linear-gradient(
+        to bottom, 
+        transparent 0%, 
+        rgba(10, 10, 10, 0.95) 10%, /* Fades into dark 15% of the way down */
+        rgba(10, 10, 10, 0.95) 90%, /* Stays dark until 85% of the way down */
+        transparent 100% /* Fades back out to invisible */
+    );
+    
+    overflow: hidden; 
 }
 
 /* 1. The Background Image */
@@ -229,16 +242,9 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 /* 2. The Shadow Gradient Blend */
 /* This fades the top and bottom of the image into black so there are no harsh lines */
+.arch-section::before, 
 .arch-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, var(--black) 0%, transparent 15%, transparent 85%, var(--black) 100%);
-    z-index: 1;
-    pointer-events: none; /* Prevents this layer from blocking clicks */
+    display: none !important;
 }
 
 /* --- True Semi-Circle Arch --- */
@@ -341,21 +347,27 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 /* --- Glassmorphism Card --- */
 /* --- Glassmorphism Card (Adjusted to fit smaller image) --- */
+/* --- Solid Arch Card --- */
+/* --- Dark Translucent Arch Card --- */
 .glass-card {
     position: absolute;
-    bottom: -25px; /* Less overlap */
+    bottom: -25px; 
     left: 50%;
     transform: translateX(-50%);
-    /* Reduced width to match the new image size better */
     width: clamp(220px, 30vw, 300px);
-    background: rgba(26, 3, 3, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--gold-glow);
-    border-radius: 6px;
+    
+    /* 👇 THE FIX: 80% opaque dark background (smoked glass look) */
+    background: rgba(10, 10, 10, 0.8); 
+    
+    /* 👇 THE FIX: A subtle blur so the text remains perfectly readable */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    border: 1px solid var(--gold); 
+    border-radius: 4px;
     z-index: 4;
-    padding: 1.5rem; /* Slightly less padding */
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    padding: 1.5rem; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85); 
     text-align: center;
 }
 
@@ -404,12 +416,10 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background-image: url('/static/story.png'); /* Make sure your image is here! */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    margin-bottom: 0;
     padding: 5rem 0;
+    margin-bottom: 0;
+    /* 👇 REMOVED background image properties */
+    background: transparent;
 }
 /* Pure black gradient overlay to fade the image */
 .story-overlay {
@@ -639,4 +649,23 @@ body, a, button, .scent-node {
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
+}
+
+/* --- Cinematic Page Transition --- */
+#page-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #050505; /* Deep Maison Vyra Black */
+    z-index: 999999; /* Stays on top of EVERYTHING */
+    pointer-events: none; /* Allows you to click things underneath when invisible */
+    opacity: 1; /* Starts fully black */
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* When this class is added, the black screen fades away */
+body.page-loaded #page-transition {
+    opacity: 0;
 }
