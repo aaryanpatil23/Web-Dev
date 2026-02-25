@@ -6,27 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <link rel="stylesheet" href="/style.css">
 
     <style>
+        /* 1. Hide default cursor */
+        body, a, button, .scent-node, .scroll-indicator {
+            cursor: none !important; 
+        }
+
+        /* 2. Custom Cursor Dot */
+        #custom-cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 6px;
+            background-color: #cfaa6a; /* Vyra Gold */
+            border-radius: 50%;
+            pointer-events: none; 
+            z-index: 10000; 
+        }
+
+        /* 3. Custom Cursor Ring */
+        #custom-cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(207, 170, 106, 0.6); 
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 4. High-Intensity Sparkles */
         .sparkle {
             position: fixed;
             top: 0;
             left: 0;
-            width: 5px; /* Slightly larger */
+            width: 5px; 
             height: 5px;
-            background-color: #ffffff; /* Blinding white hot center */
-            /* Triple-layered gold glow for maximum intensity */
+            background-color: #ffffff; 
             box-shadow: 0 0 10px #e6d1a8, 0 0 20px #cfaa6a, 0 0 30px #cfaa6a; 
             border-radius: 50%; 
-            pointer-events: none; /* CRITICAL: Prevents blocking clicks */
-            z-index: 9999;
+            pointer-events: none; 
+            z-index: 9998;
             will-change: transform, opacity;
+        }
+
+        /* 5. Hero Section Typography Overrides */
+        .hero-logo {
+            max-width: 140px; 
+            height: auto;
+            filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.6)); 
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 8vw, 6.5rem); 
+            color: #cfaa6a;
+            letter-spacing: 8px;
+            margin-bottom: 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+        }
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            letter-spacing: 4px;
+            font-weight: 300;
+            font-style: italic; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
     </style>
 </head>
@@ -68,13 +122,9 @@
     <div class="container position-relative" style="z-index: 2;">
         <div class="row">
             <div class="col-lg-6 col-md-8 text-start">
-                
                 <img src="/static/logo.png" alt="Vyra Logo" class="hero-logo mb-3">
-                
                 <h1 class="hero-title">VYRA</h1>
-                
                 <h3 class="hero-subtitle mb-4">Where Elegance Meets Essence</h3>
-            
             </div>
         </div>
     </div>
@@ -92,10 +142,10 @@
             <div class="col-lg-5 col-md-8 ms-auto">
                 <div class="story-card">
                     <h2 class="serif-text mb-4" style="color: var(--gold); letter-spacing: 3px;">The Maison Vyra</h2>
-                    <p class="mb-3" style="font-size: 0.95rem; line-height: 1.8; opacity: 0.9;">
+                    <p class="mb-3 text-justify" style="font-size: 0.95rem; line-height: 1.8; opacity: 0.9;">
                         Born from a passion for the world's most elusive botanicals, Maison Vyra bridges the gap between ancient perfumery traditions and modern avant-garde elegance. 
                     </p>
-                    <p class="mb-5" style="font-size: 0.95rem; line-height: 1.8; opacity: 0.9;">
+                    <p class="mb-5 text-justify" style="font-size: 0.95rem; line-height: 1.8; opacity: 0.9;">
                         Every bottle is a masterclass in patience, utilizing ethically sourced ouds, hand-picked damask roses, and pure ambergris. We do not just create fragrances; we craft liquid memories.
                     </p>
                     <a href="about.html" class="gold-btn text-decoration-none d-inline-block text-center w-100">
@@ -160,53 +210,95 @@
     </div>
 </footer>
 
+<div id="custom-cursor-dot"></div>
+<div id="custom-cursor-ring"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <script>
-    // 1. High-Intensity Sparkle Animation
+    // 1. Center the Custom Cursor
+    gsap.set(["#custom-cursor-dot", "#custom-cursor-ring"], {xPercent: -50, yPercent: -50});
+
+    // 2. Mouse Tracking: Cursor & Sparkles
     document.addEventListener('mousemove', (e) => {
         if (typeof gsap !== 'undefined') {
-            // Spawn 1 to 3 sparkles EVERY time the mouse registers movement
-            let sparkleCount = Math.floor(Math.random() * 3) + 1;
             
+            // Move the gold dot instantly
+            gsap.to("#custom-cursor-dot", {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0 
+            });
+
+            // Move the outer ring with a smooth trailing delay
+            gsap.to("#custom-cursor-ring", {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.15,
+                ease: "power2.out"
+            });
+
+            // Spawn Sparkles
+            let sparkleCount = Math.floor(Math.random() * 3) + 1;
             for(let i = 0; i < sparkleCount; i++) {
                 createSparkle(e.clientX, e.clientY);
             }
         }
     });
 
+    // 3. Magnetic Hover Effect for Buttons & Links
+    // This makes the ring expand when you hover over anything clickable
+    const interactables = document.querySelectorAll('a, button, .scent-node, .scroll-indicator');
+    
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to('#custom-cursor-ring', { 
+                scale: 1.8, 
+                backgroundColor: 'rgba(207, 170, 106, 0.15)', 
+                duration: 0.3 
+            });
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            gsap.to('#custom-cursor-ring', { 
+                scale: 1, 
+                backgroundColor: 'transparent', 
+                duration: 0.3 
+            });
+        });
+    });
+
+    // 4. Sparkle Creation Logic
     function createSparkle(mouseX, mouseY) {
         const sparkle = document.createElement('div');
         sparkle.classList.add('sparkle');
         document.body.appendChild(sparkle);
 
-        // Scatter them further around the cursor for a "dust" effect
         const startX = mouseX + (Math.random() * 30 - 15);
         const startY = mouseY + (Math.random() * 30 - 15);
 
         gsap.set(sparkle, {
             x: startX,
             y: startY,
-            scale: Math.random() * 1 + 0.5, // Much higher scale variance
+            scale: Math.random() * 1 + 0.5, 
             opacity: 1
         });
 
-        // Drift down further and wider
         gsap.to(sparkle, {
-            y: startY + (Math.random() * 100 + 30), // Falls much further down
-            x: startX + (Math.random() * 80 - 40),  // Drifts wider to the sides
+            y: startY + (Math.random() * 100 + 30), 
+            x: startX + (Math.random() * 80 - 40),  
             opacity: 0,
             scale: 0,
-            duration: Math.random() * 1.5 + 0.5, // Lasts a bit longer in the air
+            duration: Math.random() * 1.5 + 0.5, 
             ease: "power1.out",
             onComplete: () => {
-                sparkle.remove(); // Keep memory clean!
+                sparkle.remove(); 
             }
         });
     }
 
-    // 2. Collection Scent Wheel Data
+    // 5. Collection Scent Wheel Data
     const collectionData = [
         {
             name: "Signature",
@@ -231,7 +323,7 @@
         }
     ];
 
-    // 3. Collection Selection Logic
+    // 6. Collection Selection Logic
     function selectCollection(index) {
         const wheel = document.getElementById('collectionWheel');
         const nodes = document.querySelectorAll('.scent-node');

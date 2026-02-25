@@ -526,3 +526,34 @@ footer {
     mix-blend-mode: screen; /* Makes the gold look like real light, not just paint */
     will-change: transform; /* Tells the browser to optimize this for smooth animation */
 }
+
+/* Hide default cursor everywhere */
+body, a, button, .scent-node {
+    cursor: none !important; 
+}
+
+/* The tiny solid gold center dot */
+#custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: #cfaa6a; /* Vyra Gold */
+    border-radius: 50%;
+    pointer-events: none; /* Lets you click through it */
+    z-index: 10000; /* Keeps it above everything */
+}
+
+/* The delicate trailing outer ring */
+#custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    border: 1px solid rgba(207, 170, 106, 0.6); /* Semi-transparent gold */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+}
