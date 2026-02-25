@@ -1,4 +1,5 @@
 /* --- Variables & Core Setup --- */
+
 :root {
     --maroon-dark: #000000; /* Deeper, richer dark background */
     --maroon: #000000;
@@ -42,11 +43,48 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
     width: 100vw;
     height: 100vh; /* Takes up exactly one full screen */
     /* High-end perfume photography placeholder */
-    background-image: url('/static/hero2.png'); 
+    background-image: url('/static/hero.png'); 
     background-size: cover; /* Ensures the entire image fits within the section */
     background-repeat: no-repeat;
-    background-position: center top;
+    background-position: center ;
     background-attachment: scroll; /* Normal scroll behavior */
+}
+
+/* --- Hero Section Elements --- */
+.hero-logo {
+    max-width: 750px; /* Adjust this number to make your logo bigger or smaller */
+    height: auto;
+    /* Adds a soft shadow so the PNG stands out against the background image */
+    filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.6)); 
+    will-change: transform, opacity;
+    margin-left: -50px;
+    margin-top: -100px;
+}
+
+.hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 8vw, 6.5rem); /* Dynamically resizes on mobile */
+    color: var(--gold);
+    letter-spacing: 8px;
+    margin-bottom: 0;
+    margin-top: -150px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    will-change: transform, opacity;
+    text-align: center;
+    margin-left: 50px;
+}
+
+.hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    color: #ffffff;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    letter-spacing: 3px;
+    font-weight: 10;
+    font-style: italic; /* Gives it that elegant Maison feel */
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    will-change: transform, opacity;
+    text-align: center;
+    margin-left: 50px;
 }
 
 /* A slight dark fade at the very top so your transparent Navbar is visible */
@@ -118,6 +156,13 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
     color: var(--gold);
     letter-spacing: 6px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    transition: letter-spacing 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: letter-spacing, opacity;
+}
+
+.reveal-text {
+    letter-spacing: 1.5rem;
+    opacity: 0.5;
 }
 
 .subtitle {
@@ -462,4 +507,22 @@ footer {
     }
 
     
+}
+/* --- Mouse Follower Glow --- */
+#cursor-blur {
+    position: fixed;      /* Floats perfectly over the screen */
+    top: 0;               /* Anchors it to the top left so it doesn't break layout */
+    left: 0;
+    width: 400px;
+    height: 400px;
+    /* Using your specific --gold color with low opacity for the glow */
+    background: radial-gradient(circle, rgba(207, 170, 106, 0.08) 0%, transparent 50%);
+    border-radius: 50%;
+    
+    /* 👇 THE MOST IMPORTANT LINE: Prevents it from blocking clicks/scroll 👇 */
+    pointer-events: none; 
+    
+    z-index: 9999;        /* Keeps it above your images and cards */
+    mix-blend-mode: screen; /* Makes the gold look like real light, not just paint */
+    will-change: transform; /* Tells the browser to optimize this for smooth animation */
 }
