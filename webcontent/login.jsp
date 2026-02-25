@@ -21,7 +21,7 @@
     min-height:100vh;
     background:
         linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-        url("/static/shop.png");
+        url("/static/story.png");
     background-size:cover;
     background-position:center;
     background-attachment:fixed;

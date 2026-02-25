@@ -52,26 +52,33 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 /* --- Hero Section Elements --- */
 .hero-logo {
-    max-width: 750px; /* Adjust this number to make your logo bigger or smaller */
+    /* 1. Fix the size: 750px is way too big for a logo icon! */
+    max-width: 750px; /* Adjust this down to make it look elegant like the screenshot */
     height: auto;
-    /* Adds a soft shadow so the PNG stands out against the background image */
     filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.6)); 
     will-change: transform, opacity;
-    margin-left: -50px;
-    margin-top: -100px;
+    
+    /* 2. Removed all the negative margins so it centers naturally */
+    margin-bottom: 10px; 
+    margin-top: -100px; /* Pulls it up slightly to sit perfectly with the text */
 }
 
 .hero-title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(4rem, 8vw, 6.5rem); /* Dynamically resizes on mobile */
+    font-size: clamp(4rem, 8vw, 6.5rem); 
     color: var(--gold);
     letter-spacing: 8px;
     margin-bottom: 0;
-    margin-top: -150px;
     text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-    will-change: transform, opacity;
+    
+    /* 👇 NEW: Pulls the text UP closer to your giant logo */
+    margin-top: -150px;
+    margin-left: 65px;
+    /* 👇 NEW: Forces the text to align to the left */
     text-align: center;
-    margin-left: 50px;
+    width: 100%;
+    will-change: transform, opacity, text-shadow;
+    
 }
 
 .hero-subtitle {
@@ -79,12 +86,14 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
     color: #ffffff;
     font-size: clamp(1rem, 2vw, 1.4rem);
     letter-spacing: 3px;
-    font-weight: 10;
-    font-style: italic; /* Gives it that elegant Maison feel */
+    font-weight: 300; 
+    font-style: italic; 
     text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     will-change: transform, opacity;
+    margin-left: 62px;
+    /* 👇 NEW: Forces the subtitle to perfectly match the left alignment */
     text-align: center;
-    margin-left: 50px;
+    width: 100%;
 }
 
 /* A slight dark fade at the very top so your transparent Navbar is visible */
@@ -190,11 +199,44 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 }
 
 /* --- True Semi-Circle Arch --- */
+/* --- True Semi-Circle Arch Section --- */
 .arch-section {
     position: relative;
     padding-bottom: 2rem;
-    padding-top: 4rem; /* Adds breathing room when scrolled down */
-    background: radial-gradient(circle at top center, var(--maroon-dark) 0%, var(--black) 80%);
+    padding-top: 4rem; 
+    background-color: var(--black); /* Fallback color */
+    overflow: hidden; /* Keeps the background image neatly inside this section */
+}
+
+/* 1. The Background Image */
+.arch-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 👇 Put your arch background image path here 👇 */
+    background-image: url('/static/story.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Optional: Adds a high-end parallax scroll effect */
+    opacity: 0.35; /* Dims the image so the glass card and gold text pop! */
+    z-index: 0;
+}
+
+/* 2. The Shadow Gradient Blend */
+/* This fades the top and bottom of the image into black so there are no harsh lines */
+.arch-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--black) 0%, transparent 15%, transparent 85%, var(--black) 100%);
+    z-index: 1;
+    pointer-events: none; /* Prevents this layer from blocking clicks */
 }
 
 /* --- True Semi-Circle Arch --- */
@@ -329,16 +371,22 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 .gold-btn {
     background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a);
-    color: var(--maroon-dark);
+    color: #000000;
     border: none;
-    padding: 14px 0;
+    
+    /* 👇 1. THE FIX: 18px top/bottom, and 45px left/right */
+    padding: 10px 15px; 
+    
     font-weight: 600;
     letter-spacing: 2px;
     text-transform: uppercase;
-    border-radius: 2px;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
+    
+    /* 👇 2. THE FIX: Delete or comment out the width so the padding can take effect! */
+    /* width: 100%; */ 
+    
     font-size: 0.85rem;
 }
 
@@ -389,6 +437,39 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 .story-card .gold-btn {
     color: #000000; /* Crisp black text against the gold button */
     font-weight: 700;
+}
+
+/* --- Story Section Left Image Fix --- */
+.story-image-container {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+    /* Removed the padding that was causing alignment issues */
+}
+
+/* Kill the glitchy offset frame that was causing the stray line */
+.story-image-container::before {
+    display: none !important; 
+}
+
+/* Perfect the image styling */
+.story-left-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px; /* Soft, elegant corners */
+    /* Deep shadow to lift it off the dark background */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.9); 
+    /* A very subtle gold border directly ON the image */
+    border: 1px solid rgba(207, 170, 106, 0.25); 
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Optional: Slight hover lift for the image */
+.story-left-image:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 60px rgba(0,0,0,1);
+    border-color: rgba(207, 170, 106, 0.5);
 }
 
 /* --- Mobile View Adjustments --- */
@@ -550,8 +631,8 @@ body, a, button, .scent-node {
     position: fixed;
     top: 0;
     left: 0;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     border: 1px solid rgba(207, 170, 106, 0.6); /* Semi-transparent gold */
     border-radius: 50%;
     pointer-events: none;
