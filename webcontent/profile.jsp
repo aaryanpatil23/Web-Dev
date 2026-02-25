@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VYRA | Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* Background */
+.profile-bg{
+    min-height:100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.80), rgba(0,0,0,0.90)),
+        url("/static/shop.png");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    padding:120px 20px 80px;
+}
+
+/* Header */
+.profile-header{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.profile-header h1{
+    font-family:'Playfair Display', serif;
+    color:var(--gold);
+    letter-spacing:6px;
+    font-size:40px;
+}
+
+.profile-header p{
+    color:var(--gold);
+    letter-spacing:3px;
+    font-size:12px;
+    opacity:0.7;
+}
+
+/* Glass Card */
+.profile-card{
+    max-width:750px;
+    margin:auto;
+    background:rgba(15,15,15,0.88);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--gold-glow);
+    border-radius:10px;
+    padding:45px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.8);
+}
+
+/* Section Title */
+.section-title{
+    font-family:'Playfair Display', serif;
+    color:var(--gold);
+    letter-spacing:3px;
+    margin-bottom:25px;
+    font-size:20px;
+    text-transform:uppercase;
+}
+
+/* Info Rows */
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:16px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.info-label{
+    opacity:0.6;
+    letter-spacing:1px;
+    font-size:13px;
+}
+
+.info-value{
+    letter-spacing:1px;
+    font-size:14px;
+}
+
+/* Orders */
+.order-item{
+    padding:18px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.order-title{
+    font-weight:500;
+    letter-spacing:1px;
+}
+
+.order-meta{
+    font-size:12px;
+    opacity:0.6;
+    letter-spacing:1px;
+    margin-top:5px;
+}
+
+/* Button */
+.edit-btn{
+    margin-top:35px;
+    width:100%;
+    padding:14px;
+    background:linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a);
+    border:none;
+    color:var(--maroon-dark);
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:0.3s;
+}
+
+.edit-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(207,170,106,0.4);
+}
+.section-divider{
+    width:100%;
+    height:2px;
+    margin:60px 0 40px;
+    background:linear-gradient(
+        to right,
+        transparent,
+        #bfa046,
+        #e6d1a8,
+        #bfa046,
+        transparent
+    );
+    border-radius:2px;
+    opacity:0.9;
+}
+.back-home-btn{
+    margin-top:50px;
+    width:100%;
+    padding:14px;
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    font-weight:500;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    transition:0.3s;
+}
+
+.back-home-btn:hover{
+    background:linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a);
+    color:var(--maroon-dark);
+    box-shadow:0 10px 25px rgba(207,170,106,0.4);
+    transform:translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<div class="profile-bg">
+
+    <div class="profile-header">
+        <h1>VYRA</h1>
+        <p>PERSONAL PROFILE</p>
+    </div>
+
+    <div class="profile-card">
+
+        <!-- PERSONAL INFORMATION -->
+        <div class="section-title">Personal Information</div>
+
+        <%
+            if(session.getAttribute("userName") == null){
+                response.sendRedirect("login.jsp");
+            }
+        %>
+
+        <div class="info-row">
+            <div class="info-label">Name</div>
+            <div class="info-value"><%= session.getAttribute("userName") %></div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Email</div>
+            <div class="info-value"><%= session.getAttribute("userEmail") %></div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Phone</div>
+            <div class="info-value"><%= session.getAttribute("userPhone") %></div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-label">Address</div>
+            <div class="info-value"><%= session.getAttribute("userAddress") %></div>
+        </div>
+
+        <button class="edit-btn">Edit Profile</button>
+
+        <!-- MY ORDERS -->
+        <div class="section-divider"></div>
+
+        <div class="section-title">My Orders</div>
+
+        <div class="order-item">
+            <div class="order-title">Oud Mystique – 100ml</div>
+            <div class="order-meta">Order ID: #VY1023 | Delivered</div>
+        </div>
+
+        <div class="order-item">
+            <div class="order-title">Velvet Peony – 50ml</div>
+            <div class="order-meta">Order ID: #VY1024 | In Transit</div>
+        </div>
+
+        <div class="order-item">
+            <div class="order-title">Amber Desire – 100ml</div>
+            <div class="order-meta">Order ID: #VY1025 | Processing</div>
+        </div>
+
+        <button class="back-home-btn" onclick="window.location.href='index.html'">
+        Back to Home
+    </button>
+
+    </div>
+
+</div>
+
+</body>
+</html>

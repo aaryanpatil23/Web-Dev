@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vyra | Perfume Collection</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Montserrat', sans-serif;
+}
+
+/* BRIGHTER BACKGROUND */
+body{
+    background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url("/static/shop.png");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    color:#fff;
+}
+
+/* PAGE TITLE */
+.collection-title{
+    text-align:center;
+    padding:100px 20px 20px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:52px;
+    font-style:italic;
+    letter-spacing:3px;
+    font-weight:400;
+}
+
+/* GRID */
+.collection-container{
+    width:90%;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+    padding-bottom:60px;
+}
+
+/* CATEGORY BOX */
+.category-box{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter:blur(8px);
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.4s;
+}
+
+.category-box:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 30px rgba(255,215,0,0.25);
+}
+
+/* IMAGE STYLE */
+.category-box img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    filter:brightness(85%);
+    transition:0.4s;
+}
+
+.category-box:hover img{
+    filter:brightness(100%);
+    transform:scale(1.05);
+}
+
+/* CATEGORY NAME */
+.category-content{
+    padding:20px;
+    text-align:center;
+}
+
+.category-content h3{
+    font-family:'Playfair Display', serif;
+    font-size:22px;
+    letter-spacing:2px;
+}
+
+/* DROPDOWN PERFUMES */
+.perfume-list{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.5s ease;
+    background:rgba(0,0,0,0.6);
+}
+
+.perfume-item{
+    padding:12px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+.perfume-item:hover{
+    background:rgba(255,215,0,0.1);
+}
+
+/* ACTIVE */
+.category-box.active .perfume-list{
+    max-height:300px;
+}
+
+/* BACK TO HOME */
+.back-home{
+    text-align:center;
+    padding:40px 0 60px;
+}
+
+.home-btn{
+    color:#FFD700;
+    letter-spacing:3px;
+    font-size:14px;
+    padding:12px 30px;
+    border:1px solid #FFD700;
+    text-decoration:none;
+    transition:0.4s ease;
+    display:inline-block;
+}
+
+.home-btn:hover{
+    background:#FFD700;
+    color:black;
+    box-shadow:0 10px 25px rgba(255,215,0,0.4);
+}
+</style>
+</head>
+
+<body>
+
+<h1 class="collection-title">OUR FRAGRANCE COLLECTION</h1>
+
+<div class="collection-container">
+
+    <!-- WOODY -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/woody.jpg" alt="Woody">
+        <div class="category-content">
+            <h3>WOODY</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item">
+                <a href="woody.html" style="color:white; text-decoration:none;">Cedar Noir</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLORAL -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/floral.png" alt="Floral">
+        <div class="category-content">
+            <h3>FLORAL</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item">
+                <a href="floral.html" style="color:white; text-decoration:none;">Blooming Desire</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CITRUS -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/citrus.png" alt="Citrus">
+        <div class="category-content">
+            <h3>CITRUS</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item">
+                <a href="citrus.html" style="color:white; text-decoration:none;">Lime Serenity</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORIENTAL -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/orientalp.png" alt="Oriental">
+        <div class="category-content">
+            <h3>ORIENTAL</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item" >
+                <a href="/oriental.html" style="color:white; text-decoration:none;">Midnight Saffron</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- AQUATIC -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/aquatic.jpg" alt="Aquatic">
+        <div class="category-content">
+            <h3>AQUATIC</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item">
+                <a href="aquatic.html" style="color:white; text-decoration:none;">Blue Horizon</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- GOURMAND -->
+    <div class="category-box" onclick="toggleBox(this)">
+        <img src="/static/gourmand.jpg" alt="Gourmand">
+        <div class="category-content">
+            <h3>GOURMAND</h3>
+        </div>
+        <div class="perfume-list">
+            <div class="perfume-item">
+                <a href="gourmand.html" style="color:white; text-decoration:none;">Caramel Velvet</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- BACK TO HOME BUTTON -->
+<div class="back-home">
+    <a href="index.html" class="home-btn">← BACK TO HOME</a>
+</div>
+
+<script>
+function toggleBox(element){
+    element.classList.toggle("active");
+}
+</script>
+
+</body>
+</html>

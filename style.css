@@ -1,0 +1,465 @@
+/* --- Variables & Core Setup --- */
+:root {
+    --maroon-dark: #000000; /* Deeper, richer dark background */
+    --maroon: #000000;
+    --gold: #cfaa6a; /* A more metallic, sophisticated gold (for text) */
+    --gold-glow: rgba(207, 170, 106, 0.3); /* Subtler glow */
+    --black: #0a0a0a;
+    --text-light: #f4f4f4;
+}
+
+body {
+    background: radial-gradient(circle at top center, var(--maroon) 0%, var(--maroon-dark) 70%, var(--black) 100%);
+    background-color: var(--black);
+    color: var(--text-light);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
+    font-family: 'Playfair Display', serif;
+}
+
+/* --- Navbar & Sidebar --- */
+.navbar {
+    padding: 1.5rem 3rem;
+    background: transparent;
+}
+
+.navbar-brand {
+    color: var(--gold) !important;
+    letter-spacing: 4px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* --- 1. Pure Hero Image Section --- */
+.hero-image-section {
+    position: relative;
+    width: 100vw;
+    height: 100vh; /* Takes up exactly one full screen */
+    /* High-end perfume photography placeholder */
+    background-image: url('/static/hero2.png'); 
+    background-size: cover; /* Ensures the entire image fits within the section */
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: scroll; /* Normal scroll behavior */
+}
+
+/* A slight dark fade at the very top so your transparent Navbar is visible */
+.hero-top-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(10, 10, 10, 0.8) 0%, transparent 100%);
+    z-index: 1;
+}
+
+/* --- Bouncing Scroll Indicator --- */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    animation: bounce 2s infinite;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Ensures it's visible over the image */
+}
+
+.scroll-indicator:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+    40% { transform: translateY(-10px) translateX(-50%); }
+    60% { transform: translateY(-5px) translateX(-50%); }
+}
+
+.btn-features {
+    color: var(--gold);
+    border: 1px solid var(--gold-glow);
+    padding: 0.6rem 1.4rem;
+    background: transparent;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.btn-features:hover {
+    background: var(--gold);
+    color: var(--maroon-dark);
+    border-color: var(--gold);
+}
+
+.offcanvas {
+    background-color: var(--maroon-dark);
+    border-left: 1px solid var(--gold-glow);
+}
+
+/* --- Typography --- */
+.main-title {
+    margin-top: 5vh; 
+    font-size: clamp(4rem, 10vw, 6rem);
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.subtitle {
+    color: var(--gold);
+    letter-spacing: 3px;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    margin-bottom: 5vh;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* --- Showcase Area --- */
+.showcase-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 65vh;
+    
+    /* 👇 THIS IS THE FIX: Forces the image down away from the arch text 👇 */
+    padding-top: 90px; 
+    
+    padding-bottom: 60px; 
+    margin-bottom: 6rem;
+}
+
+/* --- True Semi-Circle Arch --- */
+.arch-section {
+    position: relative;
+    padding-bottom: 2rem;
+    padding-top: 4rem; /* Adds breathing room when scrolled down */
+    background: radial-gradient(circle at top center, var(--maroon-dark) 0%, var(--black) 80%);
+}
+
+/* --- True Semi-Circle Arch --- */
+.arch-interactive-container {
+    position: absolute;
+    top: 50px; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85vw;
+    max-width: 750px;
+    aspect-ratio: 1 / 1; 
+    pointer-events: none;
+    z-index: 3; /* 👈 CHANGE THIS TO 3 */
+}
+
+/* The visible gold line */
+.static-arch-line {
+    position: absolute;
+    top: 0;   /* MUST be 0 to match the wheel */
+    left: 0;
+    width: 100%;
+    height: 100%; /* Make it a full circle to match the wheel */
+    border: 1px solid var(--gold-glow);
+    border-radius: 50%; /* Perfect circle */
+    clip-path: inset(0 0 50% 0); /* MAGIC TRICK: Hides the bottom half flawlessly */
+}
+
+/* The invisible rotating wheel for text */
+.scent-wheel {
+    position: absolute; /* Matches the arch line perfectly */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.scent-node {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 140px;
+    margin-left: -70px;
+    height: 50%; /* Reaches exactly to the center of the wheel */
+    transform-origin: bottom center; /* Pivots from the exact center */
+    pointer-events: auto;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 0;
+    margin-top: -15px; /* Pulls the text up so it sits directly ON the line */
+}
+
+.scent-node-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    transition: all 0.4s ease;
+    opacity: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    /* Optional: Adds a slight dark background behind text so the line doesn't cut through the letters */
+    background-color: var(--maroon-dark); 
+    padding: 0 10px;
+}
+
+.scent-node.active .scent-node-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    opacity: 1;
+    text-shadow: 0 0 20px var(--gold-glow);
+}
+
+.scent-node:hover .scent-node-text {
+    opacity: 0.8;
+}
+
+/* --- Collection Image Display (Made Smaller) --- */
+.collection-image-container {
+    position: relative;
+    z-index: 2;
+    /* Considerably reduced width and height */
+    width: clamp(180px, 25vw, 260px);
+    height: clamp(260px, 35vw, 340px);
+    border-radius: 8px;
+    border: 1px solid var(--gold-glow);
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+    margin-bottom: 40px; /* Reduced margin so it sits closer to the glass card */
+}
+
+.collection-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.6s ease;
+}
+
+/* --- Glassmorphism Card --- */
+/* --- Glassmorphism Card (Adjusted to fit smaller image) --- */
+.glass-card {
+    position: absolute;
+    bottom: -25px; /* Less overlap */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Reduced width to match the new image size better */
+    width: clamp(220px, 30vw, 300px);
+    background: rgba(26, 3, 3, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--gold-glow);
+    border-radius: 6px;
+    z-index: 4;
+    padding: 1.5rem; /* Slightly less padding */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    text-align: center;
+}
+
+.glass-card h3 {
+    font-size: 1.5rem; /* Slightly smaller font */
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.glass-card p {
+    font-size: 0.85rem; /* Slightly smaller font */
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
+}
+
+.gold-btn {
+    background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a);
+    color: var(--maroon-dark);
+    border: none;
+    padding: 14px 0;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 0.85rem;
+}
+
+.gold-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(207, 170, 106, 0.4);
+}
+
+/* --- Brand Story Section --- */
+.brand-story-section {
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-image: url('/static/story.png'); /* Make sure your image is here! */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin-bottom: 0;
+    padding: 5rem 0;
+}
+/* Pure black gradient overlay to fade the image */
+.story-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Fades from lightly shadowed on the left to heavy black on the right */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.95) 80%);
+    z-index: 1;
+}
+
+/* Sleek Black & Gold Glass Card */
+.story-card {
+    background: rgba(10, 10, 10, 0.85); /* Pure black glass instead of maroon */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--gold-glow);
+    border-radius: 6px;
+    padding: 3.5rem 2.5rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+    text-align: left;
+}
+
+/* High contrast text for the button */
+.story-card .gold-btn {
+    color: #000000; /* Crisp black text against the gold button */
+    font-weight: 700;
+}
+
+/* --- Mobile View Adjustments --- */
+@media (max-width: 768px) {
+    .brand-story-section {
+        background-attachment: scroll; 
+    }
+    
+    .story-overlay {
+        background: rgba(0, 0, 0, 0.75); /* Even black overlay on mobile */
+    }
+    
+    .story-card {
+        padding: 2.5rem 1.5rem;
+        margin-top: 2rem;
+        text-align: center; 
+    }
+}
+
+/* --- Footer --- */
+footer {
+    margin-top: auto;
+    border-top: 1px solid var(--gold-glow);
+    background-color: var(--maroon-dark);
+    padding: 3rem 0;
+    position: relative;
+    z-index: 5;
+}
+
+.social-icons a {
+    color: var(--gold);
+    margin-right: 20px;
+    font-size: 1.3rem;
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.social-icons a:hover {
+    opacity: 1;
+}
+
+.footer-link {
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.footer-link:hover {
+    opacity: 1;
+}
+
+/* --- Mobile View Refinements --- */
+@media (max-width: 768px) {
+    /* 1. Add breathing room at the top */
+    .navbar {
+        padding: 1rem 1.5rem;
+    }
+    
+    .main-title {
+        margin-top: 10vh; /* Pushes the title down away from the navbar */
+        font-size: 3.5rem;
+    }
+    
+    .subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 6vh;
+    }
+
+    /* 2. Fix the Arch Text Overlap */
+    .arch-interactive-container {
+        width: 95vw; /* Maximizes the arch width on small screens to spread text out */
+    }
+
+    .scent-node {
+        width: 90px; /* Narrower container to prevent overlapping hitboxes */
+        margin-left: -45px;
+    }
+
+    .scent-node-text {
+        font-size: 0.75rem; /* Smaller font for mobile */
+        letter-spacing: 1px;
+    }
+
+    .scent-node.active .scent-node-text {
+        font-size: 0.95rem; /* Active text stays prominent but fits */
+    }
+
+    /* 3. Scale down the central image and card to fit perfectly */
+    .collection-image-container {
+        width: 200px;
+        height: 280px;
+        margin-bottom: 50px;
+    }
+
+    .glass-card {
+        width: 88vw; /* Uses available screen width safely */
+        padding: 1.5rem 1rem;
+        bottom: -30px;
+    }
+
+    .glass-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .glass-card p {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .gold-btn {
+        padding: 12px 0;
+        font-size: 0.8rem;
+    }
+
+    
+}
