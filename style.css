@@ -52,15 +52,17 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
 
 /* --- Hero Section Elements --- */
 .hero-logo {
-    /* 1. Fix the size: 750px is way too big for a logo icon! */
-    max-width: 750px; /* Adjust this down to make it look elegant like the screenshot */
+    /* 👇 THE FIX: Use 'width' to force the size, not 'max-width' */
+    width: 750px !important;
+    
+    /* 👇 CRITICAL: Add this so your 750px logo doesn't break mobile screens */
+    max-width: 100%; 
+    
     height: auto;
     filter: drop-shadow(0px 4px 15px rgba(0,0,0,0.6)); 
     will-change: transform, opacity;
-    
-    /* 2. Removed all the negative margins so it centers naturally */
     margin-bottom: 10px; 
-    margin-top: -100px; /* Pulls it up slightly to sit perfectly with the text */
+    margin-top: -100px; 
 }
 
 .hero-title {
@@ -72,7 +74,7 @@ h1, h2, h3, .navbar-brand, .serif-text, .subtitle {
     text-shadow: 0 4px 20px rgba(0,0,0,0.8);
     
     /* 👇 NEW: Pulls the text UP closer to your giant logo */
-    margin-top: -150px;
+    margin-top: -140px;
     margin-left: 65px;
     /* 👇 NEW: Forces the text to align to the left */
     text-align: center;
