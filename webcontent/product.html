@@ -5,22 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vyra | Product Details</title>
 <link rel="icon" type="image/png" href="/static/logo.png">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
     :root {
         --gold: #cfaa6a;
     }
     
-    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; }
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; cursor: none !important; }
     
     body{
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("/static/story.png");
         background-size:cover; background-position:center; background-attachment:fixed;
         color:#fff;
+        overflow-x: hidden;
     }
 
-    /* PRODUCT SECTION */
+    /* --- Cinematic Page Transition --- */
+    #page-transition {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background-color: #050505; z-index: 999999; pointer-events: none;
+        opacity: 1; transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    body.page-loaded #page-transition { opacity: 0; }
+
+    /* --- Luxury Toast Notification --- */
+    #luxury-toast {
+        position: fixed; bottom: 30px; right: 30px;
+        background: rgba(10, 10, 10, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--gold); padding: 20px 35px; color: #fff; z-index: 100000;
+        display: flex; align-items: center; gap: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        transform: translateX(120%); transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); border-radius: 2px;
+    }
+    #luxury-toast.show { transform: translateX(0); }
+    .toast-icon { color: var(--gold); font-size: 1.2rem; }
+    .toast-text { font-family: 'Playfair Display', serif; letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; }
+
+    /* --- Custom Cursor --- */
+    #custom-cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background-color: var(--gold); border-radius: 50%; pointer-events: none; z-index: 10000; }
+    #custom-cursor-ring { position: fixed; top: 0; left: 0; width: 34px; height: 34px; border: 1px solid rgba(207, 170, 106, 0.6); border-radius: 50%; pointer-events: none; z-index: 9999; transition: background-color 0.3s ease; }
+    .sparkle { position: fixed; top: 0; left: 0; width: 5px; height: 5px; background-color: #ffffff; box-shadow: 0 0 10px #e6d1a8, 0 0 20px #cfaa6a, 0 0 30px #cfaa6a; border-radius: 50%; pointer-events: none; z-index: 9998; will-change: transform, opacity; }
+
+    /* --- PRODUCT SECTION --- */
     .product-container{ width:95%; margin:80px auto; display:flex; flex-wrap:wrap; gap:80px; align-items:center; justify-content:center; }
     .product-image{ flex:1 1 600px; text-align:center; }
     .product-image img{ width:100%; max-width:600px; border-radius:25px; box-shadow:0 30px 60px rgba(0,0,0,0.8); transition:0.4s ease; }
@@ -35,7 +63,7 @@
     
     /* BUTTONS */
     .button-group { margin-top:25px; }
-    button { padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:pointer; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
+    button { padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:none; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
     .add-cart { background:transparent; color:var(--gold); border: 1px solid var(--gold); }
     .buy-now { background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a); color:#000; }
     button:hover { transform:translateY(-2px); box-shadow: 0 5px 15px rgba(207, 170, 106, 0.4); }
@@ -45,11 +73,25 @@
     .back-home { text-align:center; padding:40px 0 60px; }
     .home-btn { color:var(--gold); letter-spacing:3px; font-size:13px; padding:12px 30px; border:1px solid var(--gold); text-decoration:none; transition:0.4s ease; display:inline-block; text-transform:uppercase;}
     .home-btn:hover { background:var(--gold); color:black; box-shadow:0 10px 25px rgba(207,170,106,0.4); }
+
+    @media (max-width: 768px) {
+        .product-container { margin: 100px auto 40px !important; gap: 30px !important; }
+        .product-details { text-align: center; }
+        .product-details h1 { font-size: 36px !important; }
+        .button-group { display: flex; flex-direction: column; gap: 15px; }
+        .button-group button { margin-right: 0 !important; width: 100%; }
+    }
 </style>
 </head>
 
 <body>
-<div id="page-transition">
+
+<div id="page-transition"></div>
+
+<div id="luxury-toast">
+    <i class="fas fa-shopping-bag toast-icon"></i>
+    <span class="toast-text">Added to your collection</span>
+</div>
 
 <div class="product-container">
     <div class="product-image">
@@ -77,19 +119,20 @@
 <div class="back-home">
     <a href="javascript:history.back()" class="home-btn">← GO BACK</a>
 </div>
-</div>
+
+<div id="custom-cursor-dot"></div>
+<div id="custom-cursor-ring"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     // 1. The FULL Master Perfume Database
     const productDatabase = {
-        // --- The Main Catalog ---
         "woody": { name: "Cedar Noir", price: "₹3,499", rating: "★★★★★ (4.8)", notes: "Cedarwood, Sandalwood, Vetiver, Amber", category: "Woody", img: "/static/woodyp.png" },
         "floral": { name: "Blooming Desire", price: "₹2,999", rating: "★★★★☆ (4.6)", notes: "Rose, Jasmine, Peony, Musk", category: "Floral", img: "/static/floralp.png" },
         "citrus": { name: "Lime Serenity", price: "₹2,799", rating: "★★★★☆ (4.5)", notes: "Lemon, Bergamot, Orange Blossom", category: "Citrus", img: "/static/citrusp.png" },
         "oriental": { name: "Midnight Saffron", price: "₹3,999", rating: "★★★★★ (4.9)", notes: "Saffron, Vanilla, Oud, Amber", category: "Oriental", img: "/static/orientalp.png" },
         "aquatic": { name: "Blue Horizon", price: "₹2,899", rating: "★★★★☆ (4.4)", notes: "Sea Salt, Marine Accord, Driftwood", category: "Aquatic", img: "/static/aquaticp.png" },
         "gourmand": { name: "Caramel Velvet", price: "₹3,299", rating: "★★★★☆ (4.7)", notes: "Caramel, Vanilla, Tonka Bean", category: "Gourmand", img: "/static/gourmandp.png" },
-        
-        // --- The High-End Scent Wheel Collection ---
         "signature": { name: "Vyra's Signature", price: "₹9,999", rating: "★★★★★ (5.0)", notes: "Bergamot, Black Pepper, Oud, Ambergris", category: "Signature Collection", img: "/static/signature.png" },
         "exclusive": { name: "Vyra's Exclusive", price: "₹9,999", rating: "★★★★★ (5.0)", notes: "Saffron, Dark Chocolate, Oud, Patchouli", category: "Luxury Collection", img: "/static/exclusive.png" },
         "heritage": { name: "Vyra's Heritage", price: "₹9,999", rating: "★★★★★ (4.9)", notes: "Oud, Amber, Leather, Smoky Woods", category: "Signature Collection", img: "/static/heritage.png" }
@@ -115,32 +158,75 @@
         document.getElementById('prod-name').innerText = "Product Not Found";
     }
 
-    // 1. Fade IN when the page loads
+    // --- Cinematic Transition ---
     window.addEventListener('pageshow', () => {
-        // Adds the class to fade out the black screen
         document.body.classList.add('page-loaded');
     });
 
-    // 2. Fade OUT when a link is clicked
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            
-            // Skip the animation for empty links, page anchors, or the "javascript:history.back()" button
             if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
-            
-            // Stop the browser from instantly loading the next page
             e.preventDefault();
-            
-            // Bring the black screen back
             document.body.classList.remove('page-loaded');
-            
-            // Wait exactly 500 milliseconds for the fade to finish, then go to the new page!
-            setTimeout(() => {
-                window.location.href = href;
-            }, 500); 
+            setTimeout(() => { window.location.href = href; }, 500); 
         });
     });
+
+    // --- Refined Button Interaction Logic ---
+    document.querySelector('.add-cart').addEventListener('click', () => {
+        const toast = document.getElementById('luxury-toast');
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 4000);
+    });
+
+    document.querySelector('.buy-now').addEventListener('click', () => {
+        document.body.classList.remove('page-loaded');
+        setTimeout(() => { window.location.href = 'transactions.html'; }, 500);
+    });
+
+    // --- Custom Cursor & Sparkles ---
+    gsap.set(["#custom-cursor-dot", "#custom-cursor-ring"], {xPercent: -50, yPercent: -50});
+
+    document.addEventListener('mousemove', (e) => {
+        if (typeof gsap !== 'undefined') {
+            gsap.to("#custom-cursor-dot", { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to("#custom-cursor-ring", { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
+
+            let sparkleCount = Math.floor(Math.random() * 3) + 1;
+            for(let i = 0; i < sparkleCount; i++) {
+                createSparkle(e.clientX, e.clientY);
+            }
+        }
+    });
+
+    const interactables = document.querySelectorAll('a, button');
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to('#custom-cursor-ring', { scale: 1.8, backgroundColor: 'rgba(207, 170, 106, 0.15)', duration: 0.3 });
+        });
+        el.addEventListener('mouseleave', () => {
+            gsap.to('#custom-cursor-ring', { scale: 1, backgroundColor: 'transparent', duration: 0.3 });
+        });
+    });
+
+    function createSparkle(mouseX, mouseY) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        document.body.appendChild(sparkle);
+
+        const startX = mouseX + (Math.random() * 30 - 15);
+        const startY = mouseY + (Math.random() * 30 - 15);
+
+        gsap.set(sparkle, { x: startX, y: startY, scale: Math.random() * 1 + 0.5, opacity: 1 });
+
+        gsap.to(sparkle, {
+            y: startY + (Math.random() * 100 + 30), 
+            x: startX + (Math.random() * 80 - 40),  
+            opacity: 0, scale: 0, duration: Math.random() * 1.5 + 0.5, ease: "power1.out",
+            onComplete: () => sparkle.remove()
+        });
+    }
 </script>
 
 </body>
