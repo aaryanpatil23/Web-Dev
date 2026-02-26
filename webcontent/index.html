@@ -208,7 +208,7 @@
             <p id="activeCollectionDesc" class="small text-white opacity-75 mb-4">
                 Our most guarded formulas, crafted from the rarest botanicals.
             </p>
-            <a id="exploreBtn" href="exclusive.html" class="gold-btn text-decoration-none">
+            <a id="exploreBtn" href="product.html?item=exclusive" class="gold-btn text-decoration-none">
                 Explore Collection
             </a>
         </div>
@@ -405,7 +405,7 @@
             nameEl.innerText = collectionData[index].name;
             descEl.innerText = collectionData[index].desc;
             imgEl.src = collectionData[index].imageSrc;
-            exploreBtn.href = collectionData[index].link;
+            exploreBtn.setAttribute('href', collectionData[index].link);
 
             nameEl.style.opacity = 1;
             descEl.style.opacity = 1;

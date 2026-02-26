@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vyra | Product Details</title>
-<link rel="icon" type="image/png" href="/static/logo.png">
 
+<link rel="icon" type="image/png" href="/static/logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -14,9 +14,9 @@
         --gold: #cfaa6a;
     }
     
-    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; cursor: none !important; }
+    *{ margin:0; padding:0; box-sizing:border-box; font-family:'Montserrat', sans-serif; }
     
-    body{
+    body {
         background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("/static/story.png");
         background-size:cover; background-position:center; background-attachment:fixed;
         color:#fff;
@@ -43,11 +43,6 @@
     .toast-icon { color: var(--gold); font-size: 1.2rem; }
     .toast-text { font-family: 'Playfair Display', serif; letter-spacing: 2px; font-size: 0.9rem; text-transform: uppercase; }
 
-    /* --- Custom Cursor --- */
-    #custom-cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background-color: var(--gold); border-radius: 50%; pointer-events: none; z-index: 10000; }
-    #custom-cursor-ring { position: fixed; top: 0; left: 0; width: 34px; height: 34px; border: 1px solid rgba(207, 170, 106, 0.6); border-radius: 50%; pointer-events: none; z-index: 9999; transition: background-color 0.3s ease; }
-    .sparkle { position: fixed; top: 0; left: 0; width: 5px; height: 5px; background-color: #ffffff; box-shadow: 0 0 10px #e6d1a8, 0 0 20px #cfaa6a, 0 0 30px #cfaa6a; border-radius: 50%; pointer-events: none; z-index: 9998; will-change: transform, opacity; }
-
     /* --- PRODUCT SECTION --- */
     .product-container{ width:95%; margin:80px auto; display:flex; flex-wrap:wrap; gap:80px; align-items:center; justify-content:center; }
     .product-image{ flex:1 1 600px; text-align:center; }
@@ -61,19 +56,20 @@
     .details-info { margin-bottom:25px; line-height:1.8; font-size:16px; }
     .details-info span { color:var(--gold); font-weight:500; }
     
-    /* BUTTONS */
+    /* --- BUTTONS --- */
     .button-group { margin-top:25px; }
-    button { padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:none; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
+    button { padding:15px 32px; margin-right:15px; border:none; border-radius:2px; cursor:pointer; font-size:13px; text-transform:uppercase; letter-spacing:2px; transition:0.3s; font-weight: 600; }
     .add-cart { background:transparent; color:var(--gold); border: 1px solid var(--gold); }
     .buy-now { background: linear-gradient(to right, #cfaa6a, #e6d1a8, #cfaa6a); color:#000; }
     button:hover { transform:translateY(-2px); box-shadow: 0 5px 15px rgba(207, 170, 106, 0.4); }
     .add-cart:hover { background: rgba(207, 170, 106, 0.1); }
     
-    /* BACK TO HOME */
+    /* --- BACK TO HOME --- */
     .back-home { text-align:center; padding:40px 0 60px; }
     .home-btn { color:var(--gold); letter-spacing:3px; font-size:13px; padding:12px 30px; border:1px solid var(--gold); text-decoration:none; transition:0.4s ease; display:inline-block; text-transform:uppercase;}
     .home-btn:hover { background:var(--gold); color:black; box-shadow:0 10px 25px rgba(207,170,106,0.4); }
 
+    /* --- MOBILE RESPONSIVE --- */
     @media (max-width: 768px) {
         .product-container { margin: 100px auto 40px !important; gap: 30px !important; }
         .product-details { text-align: center; }
@@ -120,12 +116,8 @@
     <a href="javascript:history.back()" class="home-btn">← GO BACK</a>
 </div>
 
-<div id="custom-cursor-dot"></div>
-<div id="custom-cursor-ring"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-    // 1. The FULL Master Perfume Database
+    // 1. Master Perfume Database
     const productDatabase = {
         "woody": { name: "Cedar Noir", price: "₹3,499", rating: "★★★★★ (4.8)", notes: "Cedarwood, Sandalwood, Vetiver, Amber", category: "Woody", img: "/static/woodyp.png" },
         "floral": { name: "Blooming Desire", price: "₹2,999", rating: "★★★★☆ (4.6)", notes: "Rose, Jasmine, Peony, Musk", category: "Floral", img: "/static/floralp.png" },
@@ -138,13 +130,12 @@
         "heritage": { name: "Vyra's Heritage", price: "₹9,999", rating: "★★★★★ (4.9)", notes: "Oud, Amber, Leather, Smoky Woods", category: "Signature Collection", img: "/static/heritage.png" }
     };
 
-    // 2. Read the URL to see which item was clicked
+    // 2. Read URL Parameters
     const urlParams = new URLSearchParams(window.location.search);
     const itemKey = urlParams.get('item'); 
 
-    // 3. Inject the data into the HTML
+    // 3. Inject Data
     const product = productDatabase[itemKey];
-
     if(product) {
         document.getElementById('prod-img').src = product.img;
         document.getElementById('prod-img').alt = product.name;
@@ -158,22 +149,25 @@
         document.getElementById('prod-name').innerText = "Product Not Found";
     }
 
-    // --- Cinematic Transition ---
+    // 4. Cinematic Page Load
     window.addEventListener('pageshow', () => {
         document.body.classList.add('page-loaded');
     });
 
+    // 5. Cinematic Link Transitions
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+            let href = this.getAttribute('href');
+            if (!href) href = this.href; // Fallback
             if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+            
             e.preventDefault();
             document.body.classList.remove('page-loaded');
             setTimeout(() => { window.location.href = href; }, 500); 
         });
     });
 
-    // --- Refined Button Interaction Logic ---
+    // 6. Button Logic (Toast & Buy Now)
     document.querySelector('.add-cart').addEventListener('click', () => {
         const toast = document.getElementById('luxury-toast');
         toast.classList.add('show');
@@ -184,49 +178,6 @@
         document.body.classList.remove('page-loaded');
         setTimeout(() => { window.location.href = 'transactions.html'; }, 500);
     });
-
-    // --- Custom Cursor & Sparkles ---
-    gsap.set(["#custom-cursor-dot", "#custom-cursor-ring"], {xPercent: -50, yPercent: -50});
-
-    document.addEventListener('mousemove', (e) => {
-        if (typeof gsap !== 'undefined') {
-            gsap.to("#custom-cursor-dot", { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to("#custom-cursor-ring", { x: e.clientX, y: e.clientY, duration: 0.15, ease: "power2.out" });
-
-            let sparkleCount = Math.floor(Math.random() * 3) + 1;
-            for(let i = 0; i < sparkleCount; i++) {
-                createSparkle(e.clientX, e.clientY);
-            }
-        }
-    });
-
-    const interactables = document.querySelectorAll('a, button');
-    interactables.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            gsap.to('#custom-cursor-ring', { scale: 1.8, backgroundColor: 'rgba(207, 170, 106, 0.15)', duration: 0.3 });
-        });
-        el.addEventListener('mouseleave', () => {
-            gsap.to('#custom-cursor-ring', { scale: 1, backgroundColor: 'transparent', duration: 0.3 });
-        });
-    });
-
-    function createSparkle(mouseX, mouseY) {
-        const sparkle = document.createElement('div');
-        sparkle.classList.add('sparkle');
-        document.body.appendChild(sparkle);
-
-        const startX = mouseX + (Math.random() * 30 - 15);
-        const startY = mouseY + (Math.random() * 30 - 15);
-
-        gsap.set(sparkle, { x: startX, y: startY, scale: Math.random() * 1 + 0.5, opacity: 1 });
-
-        gsap.to(sparkle, {
-            y: startY + (Math.random() * 100 + 30), 
-            x: startX + (Math.random() * 80 - 40),  
-            opacity: 0, scale: 0, duration: Math.random() * 1.5 + 0.5, ease: "power1.out",
-            onComplete: () => sparkle.remove()
-        });
-    }
 </script>
 
 </body>
